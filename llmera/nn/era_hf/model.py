@@ -4,14 +4,14 @@ import torch.nn as nn
 from collections import defaultdict
 
 
-class BPOTrainingArguments(TrainingArguments):
+class ERATrainingArguments(TrainingArguments):
     def __init__(self, gamma, beta, do_preference_reg, **kwargs):
         super().__init__(**kwargs)
         self.gamma = gamma
         self.beta = beta
         self.do_preference_reg = do_preference_reg
 
-class BPOTrainer(Trainer):
+class ERATrainer(Trainer):
     def __init__(self, model, train_dataset, 
                  eval_dataset, data_collator, args):
         super().__init__(model=model, train_dataset=train_dataset,
@@ -20,7 +20,7 @@ class BPOTrainer(Trainer):
         self._stored_metrics = defaultdict(lambda: defaultdict(list))
 
 
-    def bpo_loss(self, model, inputs):
+    def era_loss(self, model, inputs):
         (input_ids_y1, input_ids_y2,
          attention_mask_y1, attention_mask_y2,
          logp_masks_y1, logp_masks_y2,
@@ -92,15 +92,15 @@ class BPOTrainer(Trainer):
         return kl_loss#, kl_loss, reg_loss
     
     def get_batch_loss_metrics(self, model, inputs, train_eval):
-        bpo_loss = self.bpo_loss(model, inputs)
+        era_loss = self.era_loss(model, inputs)
         
         
         metrics = {}
         prefix = "eval_" if train_eval == "eval" else ""
-        metrics[f"{prefix}bpo_loss"] = bpo_loss.item()
+        metrics[f"{prefix}era_loss"] = era_loss.item()
         # metrics[f"{prefix}kl_loss"] = kl_loss.item()
         # metrics[f"{prefix}reg_loss"] = reg_loss.item()
-        return bpo_loss, metrics
+        return era_loss, metrics
 
 
     def compute_loss(self, model, inputs, return_outputs=False):

@@ -3,7 +3,7 @@ import os
 from omegaconf import OmegaConf
 import transformers
 import torch
-from llmbpo.nn import (create_hf_trainer,
+from llmera.nn import (create_hf_trainer,
                        create_dataset)
 
 @hydra.main(version_base="1.3", config_path="../cfgs", config_name="dpo_hf_train")

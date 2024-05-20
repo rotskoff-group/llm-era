@@ -1,5 +1,5 @@
 
-import llmbpo.nn
+import llmera.nn
 import h5py
 import torch
 import warnings
@@ -9,7 +9,7 @@ from omegaconf import OmegaConf
 import numpy as np
 
 
-h_params_bpo = ["model_name", "model_args", "prompt_length", "max_length",
+h_params_era = ["model_name", "model_args", "prompt_length", "max_length",
                 "beta", "gamma", "do_preference_reg", "optimizer",
                 "optimizer_args", "lr_scheduler", "lr_scheduler_args", "monitor"]
 
@@ -37,7 +37,7 @@ def create_lightning_model(train_config, model_config):
     Returns:
         lightning_model: A LightningModule model
     """
-    lightning_model = getattr(llmbpo.nn, train_config["lightning_model"])
+    lightning_model = getattr(llmera.nn, train_config["lightning_model"])
     # Make the nn in the potential so Lightning is aware of hyperparameters
     lightning_model = lightning_model(model_config["model_name"],
                                       model_config["model_args"],
@@ -48,14 +48,14 @@ def create_lightning_model(train_config, model_config):
 def create_hf_trainer(model, train_config, train_dataset,
                       eval_dataset):
 
-    training_args_class = getattr(llmbpo.nn, 
+    training_args_class = getattr(llmera.nn, 
                                   train_config["training_arguments"])
     training_args = training_args_class(
         **OmegaConf.to_object(train_config["training_arguments_args"]))
     
     
-    data_collator = getattr(llmbpo.nn, train_config["collate_fn"])
-    trainer_class = getattr(llmbpo.nn, train_config["trainer_model"])
+    data_collator = getattr(llmera.nn, train_config["collate_fn"])
+    trainer_class = getattr(llmera.nn, train_config["trainer_model"])
     trainer = trainer_class(model, train_dataset=train_dataset,
                             eval_dataset=eval_dataset,
                             data_collator=data_collator,
@@ -64,7 +64,7 @@ def create_hf_trainer(model, train_config, train_dataset,
 
 
 def create_dataset(train_config, dataset_filename):
-    dataset = getattr(llmbpo.nn, train_config["dataset"])
+    dataset = getattr(llmera.nn, train_config["dataset"])
     get_hdf5 = get_hdf5_fn(dataset_filename)
 
     dataset = dataset(get_hdf5=get_hdf5,
@@ -82,7 +82,7 @@ def create_dataloaders(dataset, train_config):
     """
     train, val, test = torch.utils.data.random_split(dataset,
                                                      list(train_config["dataset_split_args"].values()))
-    collate_fn = getattr(llmbpo.nn, train_config["collate_fn"])
+    collate_fn = getattr(llmera.nn, train_config["collate_fn"])
 
     train_loader = torch.utils.data.DataLoader(train, batch_size=train_config["batch_size"], shuffle=True,
                                                num_workers=train_config["num_workers"], collate_fn=collate_fn)
@@ -103,7 +103,7 @@ def create_dataloaders(dataset, train_config):
     """
     train, val, test = torch.utils.data.random_split(dataset,
                                                      list(train_config["dataset_split_args"].values()))
-    collate_fn = getattr(llmbpo.nn, train_config["collate_fn"])
+    collate_fn = getattr(llmera.nn, train_config["collate_fn"])
 
     train_loader = torch.utils.data.DataLoader(train, batch_size=train_config["batch_size"], shuffle=True,
                                                num_workers=train_config["num_workers"], collate_fn=collate_fn)
@@ -138,7 +138,7 @@ def create_dataloaders_prompt(dataset, train_config):
 
     assert (len(train) + len(val) + len(test)) == len(dataset)
 
-    collate_fn = getattr(llmbpo.nn, train_config["collate_fn"])
+    collate_fn = getattr(llmera.nn, train_config["collate_fn"])
 
     train_loader = torch.utils.data.DataLoader(train, batch_size=train_config["batch_size"], shuffle=True,
                                                num_workers=train_config["num_workers"], collate_fn=collate_fn)
@@ -168,8 +168,8 @@ def get_all_version_matches(network_folder_name, lightning_model, task_name):
         h_params = AttributeDict(OmegaConf.load(
             f"{h_params_folder_name}/hparams.yaml"))
 
-        if task_name == "bpo":
-            h_param_names_to_check = h_params_bpo
+        if task_name == "era":
+            h_param_names_to_check = h_params_era
         elif task_name == "sft":
             h_param_names_to_check = h_params_sft
         else:

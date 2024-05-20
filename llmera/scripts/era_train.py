@@ -5,12 +5,12 @@ import lightning as L
 from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.loggers import TensorBoardLogger
 
-from llmbpo.nn import (create_lightning_model,
+from llmera.nn import (create_lightning_model,
                        create_dataset, create_dataloaders_prompt,
                        get_ckpt_path)
 
 
-@hydra.main(version_base="1.3", config_path="../cfgs", config_name="bpo_train")
+@hydra.main(version_base="1.3", config_path="../cfgs", config_name="era_train")
 def main(cfg):
     model_config = cfg.model
     train_config = cfg.train

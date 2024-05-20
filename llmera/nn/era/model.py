@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 
 
-class BPOModel(L.LightningModule):
+class ERAModel(L.LightningModule):
     def __init__(self, model_name, model_args,
                  prompt_length, max_length,
                  beta, gamma,

@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import Dataset
 
 
-def bpo_hf_collate_fn(data):
+def era_hf_collate_fn(data):
     input_ids_1, input_ids_2, attention_mask_1, attention_mask_2, logp_masks_1, logp_masks_2, ref_logps_y1, ref_logps_y2, energies_1, energies_2 = zip(
         *data)
 
@@ -29,33 +29,33 @@ def bpo_hf_collate_fn(data):
             "return_loss": True}
 
 
-class BPOHFDataset(Dataset):
+class ERAHFDataset(Dataset):
     def __init__(self, get_hdf5,
                  data_in_memory=True):
         self.data_in_memory = data_in_memory
         self.get_hdf5 = get_hdf5
 
-        bpo_hdf5 = self.get_hdf5()
-        self.num_examples_per_prompt = bpo_hdf5.attrs['num_examples_per_prompt']
+        era_hdf5 = self.get_hdf5()
+        self.num_examples_per_prompt = era_hdf5.attrs['num_examples_per_prompt']
         self.num_pairs_per_prompt = (self.num_examples_per_prompt
                                      * (self.num_examples_per_prompt - 1) // 2)
-        self.num_prompts = bpo_hdf5.attrs['num_prompts']
+        self.num_prompts = era_hdf5.attrs['num_prompts']
 
-        assert (len(bpo_hdf5['input_ids'])
+        assert (len(era_hdf5['input_ids'])
                 == self.num_examples_per_prompt * self.num_prompts)
-        del bpo_hdf5
+        del era_hdf5
 
         self.length = int(self.num_prompts * self.num_pairs_per_prompt)
         self.all_pairs = [[i, j] for i in range(self.num_examples_per_prompt)
                           for j in range(i + 1, self.num_examples_per_prompt)]
 
     def open_hdf5(self):
-        self.bpo_hdf5 = self.get_hdf5()
-        self.input_ids = self.bpo_hdf5['input_ids']
-        self.attention_mask = self.bpo_hdf5['attention_mask']
-        self.logp_masks = self.bpo_hdf5['logp_masks']
-        self.logps_y = self.bpo_hdf5['logps_y']
-        self.energies = self.bpo_hdf5['energies']
+        self.era_hdf5 = self.get_hdf5()
+        self.input_ids = self.era_hdf5['input_ids']
+        self.attention_mask = self.era_hdf5['attention_mask']
+        self.logp_masks = self.era_hdf5['logp_masks']
+        self.logps_y = self.era_hdf5['logps_y']
+        self.energies = self.era_hdf5['energies']
 
         if self.data_in_memory:
             self.input_ids = self.input_ids[:]
@@ -68,7 +68,7 @@ class BPOHFDataset(Dataset):
         return self.length
 
     def __getitem__(self, idx):
-        if not hasattr(self, 'bpo_hdf5'):
+        if not hasattr(self, 'era_hdf5'):
             self.open_hdf5()
         prompt_index = idx // self.num_pairs_per_prompt
         pair_index = idx % self.num_pairs_per_prompt

@@ -1,6 +1,6 @@
-lightning_model: BPOModel
-dataset: "BPODataset"
-collate_fn: "bpo_collate_fn"
+lightning_model: ERAModel
+dataset: "ERADataset"
+collate_fn: "era_collate_fn"
 data_in_memory: False
 batch_size: 1
 num_workers: 4

@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import Dataset
 
 
-def bpo_collate_fn(data):
+def era_collate_fn(data):
     input_ids_1, input_ids_2, attention_mask_1, attention_mask_2, logp_masks_1, logp_masks_2, ref_logps_y1, ref_logps_y2, energies_1, energies_2 = zip(
         *data)
     
@@ -28,7 +28,7 @@ def bpo_collate_fn(data):
             energies_y1, energies_y2)
 
 
-class BPODataset(Dataset):
+class ERADataset(Dataset):
     def __init__(self, get_hdf5,
                  data_in_memory=True):
         self.data_in_memory = data_in_memory

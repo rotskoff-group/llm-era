@@ -1,6 +1,6 @@
 defaults:
   - model: llama
-  - train: bpo_hf
+  - train: era_hf
   - override hydra/hydra_logging: disabled
   - override hydra/job_logging: disabled
   - _self_

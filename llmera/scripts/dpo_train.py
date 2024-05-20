@@ -5,7 +5,7 @@ import lightning as L
 from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.loggers import TensorBoardLogger
 
-from llmbpo.nn import (create_lightning_model,
+from llmera.nn import (create_lightning_model,
                        create_dataset, create_dataloaders_prompt,
                        get_ckpt_path)
 
