@@ -19,7 +19,7 @@ class DPOTrainer(Trainer):
         self._stored_metrics = defaultdict(lambda: defaultdict(list))
 
 
-    def bpo_loss(self, model, inputs):
+    def era_loss(self, model, inputs):
         (input_ids_y1, input_ids_y2,
          attention_mask_y1, attention_mask_y2,
          logp_masks_y1, logp_masks_y2,
@@ -66,7 +66,7 @@ class DPOTrainer(Trainer):
         return loss
     
     def get_batch_loss_metrics(self, model, inputs, train_eval):
-        loss = self.bpo_loss(model, inputs)
+        loss = self.era_loss(model, inputs)
         
         
         metrics = {}

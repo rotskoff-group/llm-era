@@ -18,7 +18,7 @@ def main(cfg):
 
     L.seed_everything(**train_config["seed_args"])
 
-    bpo_model = create_lightning_model(train_config=train_config,
+    era_model = create_lightning_model(train_config=train_config,
                                        model_config=model_config)
 
     dataset = create_dataset(train_config=train_config,
@@ -29,7 +29,7 @@ def main(cfg):
     resume_training_path = train_config["resume_training_path"]
     if resume_training_path is not None:
         ckpt_path, version_num = get_ckpt_path(resume_training_path,
-                                               lightning_model=bpo_model)
+                                               lightning_model=era_model)
 
         best_checkpoint_callback = ModelCheckpoint(filename="best_model",
                                                    monitor=train_config["lightning_model_args"]["monitor"],
@@ -43,7 +43,7 @@ def main(cfg):
                             logger=logger,
                             **train_config["trainer_args"])
 
-        trainer.fit(bpo_model, train_dataloader, val_dataloader,
+        trainer.fit(era_model, train_dataloader, val_dataloader,
                     ckpt_path=f"{ckpt_path}/checkpoints/best_model.ckpt")
 
     else:
@@ -60,6 +60,6 @@ def main(cfg):
             OmegaConf.save(cfg, f"{train_folder_name}/config.yaml")
 
         if train_config["load_model_filename"] is not None:
-            bpo_model.load_model_from_ckpt(train_config["load_model_filename"])
+            era_model.load_model_from_ckpt(train_config["load_model_filename"])
 
-        trainer.fit(bpo_model, train_dataloader, val_dataloader)
+        trainer.fit(era_model, train_dataloader, val_dataloader)
