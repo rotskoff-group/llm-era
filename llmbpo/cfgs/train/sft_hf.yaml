@@ -1,0 +1,15 @@
+load_model_filename: null
+resume_training_path: null
+training_arguments_args:
+  per_device_train_batch_size: 2
+  logging_dir: "./logs"
+  output_dir: "./outputs"
+  bf16: True
+  learning_rate: 5E-6
+  label_names: ["input_ids", "attention_mask"]
+  save_steps: 2000
+  num_train_epochs: 3
+  evaluation_strategy: epoch
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: False
+  logging_steps: 500

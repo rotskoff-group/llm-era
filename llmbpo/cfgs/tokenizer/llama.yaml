@@ -1,0 +1,6 @@
+tokenizer_name: LlamaTokenizer
+tokenizer_args:
+  # pretrained_model_name_or_path: meta-llama/Llama-2-7b-chat-hf
+  pretrained_model_name_or_path: meta-llama/Llama-2-7b-chat-hf
+  add_bos_token: False
+  add_eos_token: False

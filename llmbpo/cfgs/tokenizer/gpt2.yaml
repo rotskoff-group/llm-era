@@ -1,0 +1,5 @@
+tokenizer_name: GPT2Tokenizer
+tokenizer_args:
+  pretrained_model_name_or_path: gpt2-large
+  add_eos_token: False
+  add_bos_token: False

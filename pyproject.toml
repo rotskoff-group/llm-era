@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-bpo"
+version = "0.0.1"
+authors = [
+  { name="Shriram Chennakesavalu", email="shriramc@stanford.edu" },
+  { name="Frank Hu", email="frankhu@stanford.edu" },
+  { name="Sebastian Ibarraran", email="si264@stanford.edu" },
+  { name="Grant Rotskoff", email="rotskoff@stanford.edu" }
+]
+description = "Bayesian policy optimization for large language models"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]  # list of folders that contain the packages (["."] by default)
+include = ["llmbpo"]  # package names should match these glob patterns (["*"] by default)
+exclude = []  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+
+
+[project.urls]
+Homepage = "https://github.com/rotskoff-group/llm-bpo"
+
+[project.scripts]
+sft_train = "llmbpo.scripts.sft_train:main"
+llm_bpo_train = "llmbpo.scripts.bpo_train:main"
+llm_dpo_train = "llmbpo.scripts.dpo_train:main"
+llm_hf_bpo_train = "llmbpo.scripts.bpo_hf_train:main"
+llm_hf_dpo_train = "llmbpo.scripts.dpo_hf_train:main"
+llm_hf_sft_train = "llmbpo.scripts.sft_hf_train:main"
+llm_reward_train = "llmbpo.scripts.reward_train:main"

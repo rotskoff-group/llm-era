@@ -1,0 +1,33 @@
+lightning_model: SFTModel
+dataset: "SFTDataset"
+collate_fn: "sft_collate_fn"
+data_in_memory: False
+batch_size: 4
+num_workers: 4
+resume_training_path: null
+lightning_model_args:
+  prompt_length: 8
+  max_length: 256
+  optimizer: "Adam"
+  optimizer_args:
+    lr: 1.0e-06
+  lr_scheduler: "ReduceLROnPlateau"
+  lr_scheduler_args:
+    patience: 5
+  monitor: "val/CELoss"
+trainer_args:
+  accelerator: "cuda"
+  log_every_n_steps: 250
+  max_epochs: 1000
+  devices: [1, 2, 3, 4, 5, 6, 7]
+  strategy: "fsdp"
+  enable_progress_bar: True
+  inference_mode: False
+  precision: "16-mixed"
+seed_args:
+  seed: 42
+  workers: True
+dataset_split_args:
+  train: 0.8
+  val: 0.2
+  test: 0.0

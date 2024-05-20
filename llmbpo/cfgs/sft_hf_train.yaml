@@ -1,0 +1,17 @@
+defaults:
+  - model: llama
+  - tokenizer: llama
+  - train: sft_hf
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+  - _self_
+
+hydra:  
+  output_subdir: null  
+  run:  
+    dir: .  
+
+global_args:
+  train_dataset_filename: "/pscratch/sd/s/shriramc/datasets/llama7bchatlowtemp/sft_train.hdf5"
+  eval_dataset_filename: "/pscratch/sd/s/shriramc/datasets/llama7bchatlowtemp/sft_val.hdf5"
+  use_qlora: False

@@ -1,0 +1,34 @@
+lightning_model: RewardModel
+dataset: "RewardDataset"
+collate_fn: "reward_collate_fn"
+data_in_memory: False
+batch_size: 1
+num_workers: 4
+load_model_filename: "/home/group_home/bpo/llm_datasets/ahh_pythia/ft/model/best_model.ckpt"
+resume_training_path: null
+lightning_model_args:
+  prompt_length: 256
+  max_length: 512
+  optimizer: "Adam"
+  optimizer_args:
+    lr: 5.0e-06
+  lr_scheduler: "ReduceLROnPlateau"
+  lr_scheduler_args:
+    patience: 5
+  monitor: "val/CELoss"
+trainer_args:
+  accelerator: "cuda"
+  log_every_n_steps: 250
+  max_epochs: 1000
+  devices: [0, 1, 2, 3]
+  strategy: "fsdp"
+  enable_progress_bar: True
+  inference_mode: False
+  precision: "16-mixed"
+seed_args:
+  seed: 42
+  workers: True
+dataset_split_args:
+  train: 0.8
+  val: 0.2
+  test: 0.0
