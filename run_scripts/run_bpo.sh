@@ -1,7 +1,7 @@
 #!/bin/bash
 export HF_HOME=/pscratch/sd/s/shriramc/hf_cache/
 echo "HF_HOME is set to $HF_HOME"
-llm_bpo_train "train=bpo"\
+llm_era_train "train=era"\
     "global_args.root_data_folder_name=/pscratch/sd/s/shriramc/llm_datasets/"\
     "global_args.task_name=llama"\
     "model=llama"\
