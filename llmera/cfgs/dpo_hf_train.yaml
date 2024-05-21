@@ -11,5 +11,5 @@ hydra:
     dir: .  
 
 global_args:
-  train_dataset_filename: "/pscratch/sd/s/shriramc/bpo_datasets/llama_13b_sft_alignment_train.hdf5"
-  eval_dataset_filename: "/pscratch/sd/s/shriramc/bpo_datasets/llama_13b_sft_alignment_val.hdf5"
+  train_dataset_filename: null
+  eval_dataset_filename: null

@@ -5,12 +5,6 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "llm-era"
 version = "0.0.1"
-authors = [
-  { name="Shriram Chennakesavalu", email="shriramc@stanford.edu" },
-  { name="Frank Hu", email="frankhu@stanford.edu" },
-  { name="Sebastian Ibarraran", email="si264@stanford.edu" },
-  { name="Grant Rotskoff", email="rotskoff@stanford.edu" }
-]
 description = "Energy Rank Alignment for Aligning Large Language Models"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -25,9 +19,6 @@ include = ["llmera"]  # package names should match these glob patterns (["*"] by
 exclude = []  # exclude packages matching these glob patterns (empty by default)
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
-
-[project.urls]
-Homepage = "https://github.com/rotskoff-group/llm-era"
 
 [project.scripts]
 sft_train = "llmera.scripts.sft_train:main"

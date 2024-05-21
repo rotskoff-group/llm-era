@@ -12,6 +12,6 @@ hydra:
     dir: .  
 
 global_args:
-  train_dataset_filename: "/pscratch/sd/s/shriramc/datasets/llama7bchatlowtemp/sft_train.hdf5"
-  eval_dataset_filename: "/pscratch/sd/s/shriramc/datasets/llama7bchatlowtemp/sft_val.hdf5"
+  train_dataset_filename: null
+  eval_dataset_filename: null
   use_qlora: False
